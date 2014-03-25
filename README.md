@@ -5,13 +5,13 @@ Artificial Neural Networks with R
 
 Applications of NN
 ------
-*Predicting stocks
-*Predicting currencies
-*Predicting bond prices
-*Predicting commodity & energy prices
-*Credit scoring
-*Real estate appraisal
-*Targeting direct mail marketing
+* Predicting stocks
+* Predicting currencies
+* Predicting bond prices
+* Predicting commodity & energy prices
+* Credit scoring
+* Real estate appraisal
+* Targeting direct mail marketing
 
 Theory Behind NN
 --------
