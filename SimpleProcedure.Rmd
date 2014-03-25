@@ -1,4 +1,52 @@
 Simple Neural Network example and steps
 ========================================================
+1. Setup and Training the Neural Network
+--------------
+### Get the neuralnet package
+```{r}
+install.packages('neuralnet')
+library('neuralnet')
+```
 
+### Create the training data set to train the Neural Network. We want to create 2 columns with the Input and the Expected output.
+```{r}
+#Get 50 random numbers and put them into a dataframe
+traindata <- as.data.frame(runif(50, min=0, max=100))
 
+#Calculate the sqrt and then put that into a dataframe
+trainexpectedoutput <- sqrt(traindata)
+
+#Create the data frame to hold both values
+trainingset <- cbind(traindata, trainexpectedoutput)
+
+#Rename the columns
+colnames(trainingset) <- c("Input", "Output")
+```
+
+### Now we are ready to train the Neural Network.
+```{r}
+#We train sqrtnn for deployment.
+sqrtnn <- neuralnet(Output~Input, trainingset, hidden = 5, threshold = 0.01, lifesign = 'full')
+print(sqrtnn)
+plot(sqrtnn)
+```
+
+### Training is complete. Now we test the NN
+```{r}
+#Create a set of numbers. (1:10)^2 creates a list of squared numbers.
+# as.data.frame will convert the list into a dataframe
+data <- as.data.frame((1:10)^2)
+View(data)
+
+# Here we use the NN that we trained to generate a set of results given the above data.
+#compute, a method for objects of class nn, typically produced by neuralnet. Computes the outputs of all neurons for specific arbitrary covariate vectors given a trained neural network. Please make sure that the order of the covariates is the same in the new matrix or dataframe as in the original neural network.
+
+net.result <- compute(sqrtnn, data)
+
+print(net.result$net.result)
+print(sqrt(data))
+
+overview <- cbind(data, sqrt(data), net.result$net.result)
+colnames(overview) <- c("Test Data", "Expected Output", "NN Output")
+print(overview)
+```
