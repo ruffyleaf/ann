@@ -13,9 +13,28 @@ library('neuralnet')
 stidata <- read.csv("STI 2004-2013_030214.csv")
 
 # Prepare the training data
+# We take a set of 50 first to train the NN
 traindata <- stidata[1:50 , c("Close", "Tmr.Close")]
 
-
+#Close is the input and Tmr.Close is the expected output
 ```
 
+### Now we train the NN 
+```{r}
+# Several NN needs to be generated to get a good one
+stipredictor <- neuralnet(Tmr.Close ~ Close, traindata, hidden = 5, threshold = 0.01, lifesign = 'full')
+print(stipredictor)
+plot(stipredictor)
+```
 
+### Training complete, now we test the data
+```{r}
+# Create the data set from row 51 to the end
+sticlose <- as.data.frame(stidata[51:2527, c("Close")])
+
+# Compute the data
+computed <- compute(stipredictor, sticlose)
+
+print(computed$net.result)
+overview <- cbind(stidata[, c("Tmr.Close")], sticlose)
+```
