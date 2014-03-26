@@ -1,0 +1,21 @@
+STI Prediction with ANN
+========================================================
+Intro
+--------
+The steps we follow will be the same as the SimpleProcedure using the sqrt. We hope to train the Neural Network according to a suitable test set in order to predict the rest of the data. Once we have trained our NN, we will do a prediction to determine the accuracy.
+
+### Data prep 
+```{r}
+#Install neuralnet if not already installed
+install.packages("neuralnet")
+library('neuralnet')
+
+stidata <- read.csv("STI 2004-2013_030214.csv")
+
+# Prepare the training data
+traindata <- stidata[1:50 , c("Close", "Tmr.Close")]
+
+
+```
+
+
