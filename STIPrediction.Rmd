@@ -38,4 +38,19 @@ computed <- compute(stipredictor, sticlose)
 print(computed$net.result)
 overview <- cbind(sticlose, computed$net.result)
 print(overview)
+
+##Edit - works with the following data normalization process.
+
+#Standardizing data before feeding into the neural net is almost a pre-req. For values much greater than 1, the change in values is not represented by appropriate change in the activation function typically of the nature tanh. 
+newdata<-stidata[,c("Open","High","Low","Close","Volume","Target_Close")]
+stdev_newdata<-apply(newdata,2,sd,na.rm=TRUE)
+Means_newdata<-apply(newdata,2,mean,na.rm=TRUE)
+scale_newdata<-scale(newdata)
+train_newdata<-newdata[1:2000,]
+test_newdata<-scale_newdata[2001:2527,]
+test_newdata<-test_newdata[ ,-6]
+new_predictor <- neuralnet(Target_Close ~ Open+High+Low+Close+Volume, train_newdata, hidden = 10, threshold = 0.01, lifesign = 'full')
+new_computed<-compute(new_predictor,test_newdata)
+0.8751611739070*stdev_newdata[6]+Means_newdata[6] #to predict the value of the last closing day value.
+
 ```
